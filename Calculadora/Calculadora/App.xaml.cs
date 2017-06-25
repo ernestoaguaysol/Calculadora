@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Calculadora.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,7 @@ namespace Calculadora
         public App()
         {
             InitializeComponent();
-
-            MainPage = new Calculadora.MainPage();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()
