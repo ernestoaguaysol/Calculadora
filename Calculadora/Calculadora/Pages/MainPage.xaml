@@ -6,14 +6,52 @@
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     Title="Calculadora de Préstamo"
     BackgroundColor="{StaticResource BackgroundColor}">
-    
-    <StackLayout
-        Padding="8">
-        <Label
-            Text="MainPage"
-            FontSize="Large"
-            VerticalOptions="Center"
-            HorizontalOptions="Center">
-        </Label>
-    </StackLayout>
+
+    <ScrollView>
+        <StackLayout
+            Padding="8">
+            <Label
+                Text="Monto:">
+            </Label>
+            <Entry
+                Text="{Binding Monto}"
+                Keyboard="Numeric"
+                Placeholder="Entre valor del monto...">
+            </Entry>
+            <Label
+                Text="Interes:">
+            </Label>
+            <Entry
+                Text="{Binding Interes}"
+                Keyboard="Numeric"
+                Placeholder="Entre valor del interés...">
+            </Entry>
+            <Label
+                Text="Cuotas:">
+            </Label>
+            <Entry
+                Text="{Binding Cuotas}"
+                Keyboard="Numeric"
+                Placeholder="Entre la cantidad de cuotas...">
+            </Entry>
+            <Button
+                Command="{Binding CalcularCommand}"
+                BackgroundColor="{StaticResource MainColor}"
+                TextColor="White"
+                HeightRequest="40"
+                BorderRadius="20"
+                Text="Calcular">
+            </Button>
+            <Label
+                Text="{Binding PrimeraCuota, StringFormat='Primera Cuota ${0:N2}'}"
+                FontSize="Large"
+                HorizontalOptions="Center">
+            </Label>
+            <Label
+                Text="{Binding RestoDeCuotas, StringFormat='Resto de Cuotas ${0:N2}'}"
+                FontSize="Large"
+                HorizontalOptions="Center">
+            </Label>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
