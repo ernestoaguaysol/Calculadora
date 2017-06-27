@@ -2,6 +2,7 @@
 <ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:Calculadora.Controls"
     x:Class="Calculadora.Pages.MainPage"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     Title="Calculadora de Préstamo"
@@ -34,6 +35,34 @@
                 Keyboard="Numeric"
                 Placeholder="Entre la cantidad de cuotas...">
             </Entry>
+            <StackLayout
+                Padding="30,0,30,0"
+                Orientation="Horizontal">
+                <Switch
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    IsToggled="{Binding HabilitarControl}">
+                </Switch>
+                <Label
+                    Text="Generar Control"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    TextColor="{StaticResource AccentColor1}">
+                </Label>
+            </StackLayout>
+            <Label
+                Text="Forma de pago:">
+            </Label>
+            <control:BindablePicker
+                Title="Seleccionar forma de pago..."
+                DisplayMemberPath="Nombre"
+                SelectedValuePath="FormaId"
+                ItemsSource="{Binding Formas}"
+                SelectedValue ="{Binding Path=FormaElegida, Mode=TwoWay}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Center">
+            </control:BindablePicker>
             <Button
                 Command="{Binding CalcularResultadoCommand}"
                 BackgroundColor="{StaticResource MainColor}"
@@ -49,6 +78,11 @@
             </Label>
             <Label
                 Text="{Binding RestoDeCuotas}"
+                FontSize="Large"
+                HorizontalOptions="Center">
+            </Label>
+            <Label
+                Text="{Binding FormaElegida}"
                 FontSize="Large"
                 HorizontalOptions="Center">
             </Label>

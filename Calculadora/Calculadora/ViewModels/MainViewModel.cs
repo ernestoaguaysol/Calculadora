@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Calculadora.Models;
 using System;
+using System.Collections.ObjectModel;
 
 namespace Calculadora.ViewModels
 {
@@ -20,9 +21,28 @@ namespace Calculadora.ViewModels
         private string cuotas;
         private string primeraCuota;
         private string restoDeCuotas;
+        private decimal formaElegida;
         #endregion
 
         #region Properties
+        public ObservableCollection<Forma> Formas { get; set; }
+
+        public decimal FormaElegida
+        {
+            set
+            {
+                if (formaElegida != value)
+                {
+                    formaElegida = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FormaElegida"));
+                }
+            }
+            get
+            {
+                return formaElegida;
+            }
+        }
+
         public string Monto
         {
             set
@@ -108,6 +128,9 @@ namespace Calculadora.ViewModels
         public MainViewModel()
         {
             dialogService = new DialogService();
+
+            Formas = new ObservableCollection<Forma>();
+            LoadFormas();
         }
         #endregion
 
@@ -164,6 +187,24 @@ namespace Calculadora.ViewModels
             {
                 await dialogService.ShowMessage("Error", ex.Message);
                 return;
+            }
+        }
+        #endregion
+
+        #region Methods
+        private void LoadFormas()
+        {
+            var formas = new FormaDePagoViewModel();
+            Formas.Clear();
+
+            foreach (var forma in formas.Formas)
+            {
+                Formas.Add(new Forma
+                {
+                    Dias = forma.Dias,
+                    FormaId = forma.FormaId,
+                    Nombre = forma.Nombre,
+                });
             }
         }
         #endregion
