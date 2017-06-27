@@ -14,7 +14,7 @@
                 Text="Monto:">
             </Label>
             <Entry
-                Text="{Binding Monto}"
+                Text="{Binding Monto, Mode=TwoWay}"
                 Keyboard="Numeric"
                 Placeholder="Entre valor del monto...">
             </Entry>
@@ -22,7 +22,7 @@
                 Text="Interes:">
             </Label>
             <Entry
-                Text="{Binding Interes}"
+                Text="{Binding Interes, Mode=TwoWay}"
                 Keyboard="Numeric"
                 Placeholder="Entre valor del interés...">
             </Entry>
@@ -30,12 +30,12 @@
                 Text="Cuotas:">
             </Label>
             <Entry
-                Text="{Binding Cuotas}"
+                Text="{Binding Cuotas, Mode=TwoWay}"
                 Keyboard="Numeric"
                 Placeholder="Entre la cantidad de cuotas...">
             </Entry>
             <Button
-                Command="{Binding CalcularCommand}"
+                Command="{Binding CalcularResultadoCommand}"
                 BackgroundColor="{StaticResource MainColor}"
                 TextColor="White"
                 HeightRequest="40"
@@ -43,12 +43,12 @@
                 Text="Calcular">
             </Button>
             <Label
-                Text="{Binding PrimeraCuota, StringFormat='Primera Cuota ${0:N2}'}"
+                Text="{Binding PrimeraCuota}"
                 FontSize="Large"
                 HorizontalOptions="Center">
             </Label>
             <Label
-                Text="{Binding RestoDeCuotas, StringFormat='Resto de Cuotas ${0:N2}'}"
+                Text="{Binding RestoDeCuotas}"
                 FontSize="Large"
                 HorizontalOptions="Center">
             </Label>

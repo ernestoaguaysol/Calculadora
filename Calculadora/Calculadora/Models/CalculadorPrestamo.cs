@@ -1,6 +1,6 @@
 ﻿namespace Calculadora.Models
 {
-    public class Calculadora
+    public class CalculadorPrestamo
     {
         #region Attributes
         private int monto;
@@ -9,7 +9,7 @@
         #endregion
 
         #region Constructor
-        public Calculadora(int monto, int interes, int cuotas)
+        public CalculadorPrestamo(int monto, int interes, int cuotas)
         {
             this.monto = monto;
             this.interes = interes;
@@ -40,7 +40,14 @@
         {
             get
             {
-                return (Monto * Interes) / 100 + Monto;
+                if (Interes == 0)
+                {
+                    return Monto / 100 + Monto;
+                }
+                else
+                {
+                    return (Monto * Interes) / 100 + Monto;
+                }
             }
         }
 
@@ -48,7 +55,7 @@
         {
             get
             {
-                return MontoTotal - (CuotaRestante * Cuotas - 1);
+                return MontoTotal - (CuotaRestante * (Cuotas - 1));
             }
         }
 
