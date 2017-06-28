@@ -21,13 +21,30 @@ namespace Calculadora.ViewModels
         private string cuotas;
         private string primeraCuota;
         private string restoDeCuotas;
-        private decimal formaElegida;
+        private string formaElegida;
+        private bool habilitarControl;
         #endregion
 
         #region Properties
         public ObservableCollection<Forma> Formas { get; set; }
 
-        public decimal FormaElegida
+        public bool HabilitarControl
+        {
+            set
+            {
+                if (habilitarControl != value)
+                {
+                    habilitarControl = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HabilitarControl"));
+                }
+            }
+            get
+            {
+                return habilitarControl;
+            }
+        }
+
+        public string FormaElegida
         {
             set
             {
