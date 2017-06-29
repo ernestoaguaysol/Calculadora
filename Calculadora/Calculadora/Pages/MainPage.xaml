@@ -11,30 +11,84 @@
     <ScrollView>
         <StackLayout
             Padding="8">
-            <Label
-                Text="Monto:">
-            </Label>
-            <Entry
-                Text="{Binding Monto, Mode=TwoWay}"
-                Keyboard="Numeric"
-                Placeholder="Entre valor del monto...">
-            </Entry>
-            <Label
-                Text="Interes:">
-            </Label>
-            <Entry
-                Text="{Binding Interes, Mode=TwoWay}"
-                Keyboard="Numeric"
-                Placeholder="Entre valor del interés...">
-            </Entry>
-            <Label
-                Text="Cuotas:">
-            </Label>
-            <Entry
-                Text="{Binding Cuotas, Mode=TwoWay}"
-                Keyboard="Numeric"
-                Placeholder="Entre la cantidad de cuotas...">
-            </Entry>
+            <Grid
+                Padding="8,0,8,0">
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Text="Monto"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource FontColor}">
+                    </Label>
+                    <Entry
+                        Grid.Column="1"
+                        Text="{Binding Monto, Mode=TwoWay}"
+                        Placeholder="Entre valor del monto..."
+                        PlaceholderColor="{StaticResource AccentColor1}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource FontColor}">
+                    </Entry>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Text="Interes"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource FontColor}">
+                    </Label>
+                    <Entry
+                        Grid.Column="1"
+                        Text="{Binding Interes, Mode=TwoWay}"
+                        Placeholder="Entre valor del interés..."
+                        PlaceholderColor="{StaticResource AccentColor1}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource FontColor}">
+                    </Entry>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Text="Cuotas"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource FontColor}">
+                    </Label>
+                    <Entry
+                        Grid.Column="1"
+                        Text="{Binding Cuotas, Mode=TwoWay}"
+                        Placeholder="Entre la cantidad de cuotas..."
+                        PlaceholderColor="{StaticResource AccentColor1}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource FontColor}">
+                    </Entry>
+                </Grid>
+            </Grid>
             <StackLayout
                 Padding="30,0,30,0"
                 Orientation="Horizontal">
@@ -56,6 +110,7 @@
             </Label>
             <control:BindablePicker
                 Title="Seleccionar forma de pago..."
+                TextColor="{StaticResource FontColor}"
                 DisplayMemberPath="Nombre"
                 SelectedValuePath="FormaId"
                 ItemsSource="{Binding Formas}"
@@ -73,19 +128,31 @@
             </Button>
             <Label
                 Text="{Binding PrimeraCuota}"
+                TextColor="{StaticResource FontColor}"
                 FontSize="Large"
                 HorizontalOptions="Center">
             </Label>
             <Label
                 Text="{Binding RestoDeCuotas}"
+                TextColor="{StaticResource FontColor}"
                 FontSize="Large"
                 HorizontalOptions="Center">
             </Label>
             <Label
-                Text="{Binding FormaElegida}"
+                Text="{Binding Forma}"
                 FontSize="Large"
                 HorizontalOptions="Center">
             </Label>
+            <ListView
+                ItemsSource="{Binding Fechas}"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding DateTime, StringFormat='{0:dd/MM/yyyy}'}}"
+                                  TextColor="{StaticResource FontColor}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ScrollView>
 </ContentPage>

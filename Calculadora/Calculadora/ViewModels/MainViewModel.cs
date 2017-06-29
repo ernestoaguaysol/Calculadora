@@ -5,6 +5,8 @@ using System.Windows.Input;
 using Calculadora.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Calculadora.ViewModels
 {
@@ -21,12 +23,31 @@ namespace Calculadora.ViewModels
         private string cuotas;
         private string primeraCuota;
         private string restoDeCuotas;
-        private string formaElegida;
+        private int formaElegida;
+        private string forma;
         private bool habilitarControl;
         #endregion
 
         #region Properties
         public ObservableCollection<Forma> Formas { get; set; }
+
+        public ObservableCollection<Fecha> Fechas { get; set; }
+
+        public string Forma
+        {
+            set
+            {
+                if (forma != value)
+                {
+                    forma = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Forma"));
+                }
+            }
+            get
+            {
+                return forma;
+            }
+        }
 
         public bool HabilitarControl
         {
@@ -44,7 +65,7 @@ namespace Calculadora.ViewModels
             }
         }
 
-        public string FormaElegida
+        public int FormaElegida
         {
             set
             {
@@ -147,6 +168,8 @@ namespace Calculadora.ViewModels
             dialogService = new DialogService();
 
             Formas = new ObservableCollection<Forma>();
+            Fechas = new ObservableCollection<Fecha>();
+
             LoadFormas();
         }
         #endregion
@@ -186,10 +209,17 @@ namespace Calculadora.ViewModels
                     return;
                 }
 
-                var calculadora = new CalculadorPrestamo(monto, interes, cuotas);
+                var forma = Formas.ToList().Where(f => f.FormaId == formaElegida).FirstOrDefault();
+                var calculadora = new CalculadorPrestamo(monto, interes, cuotas)
+                {
+                    Dias = forma.Dias
+                };
 
                 PrimeraCuota = string.Format("Primera Cuota $ {0}", calculadora.CuotaPrimera.ToString());
                 RestoDeCuotas = string.Format("Resto de Cuotas $ {0}", calculadora.CuotaRestante.ToString());
+                Forma = forma.Nombre;
+
+                LoadFechas(calculadora.GetFechas());
 
                 Monto = null;
                 Interes = null;
@@ -221,6 +251,18 @@ namespace Calculadora.ViewModels
                     Dias = forma.Dias,
                     FormaId = forma.FormaId,
                     Nombre = forma.Nombre,
+                });
+            }
+        }
+
+        private void LoadFechas(List<Fecha> fechas)
+        {
+            Fechas.Clear();
+            foreach (var fecha in fechas)
+            {
+                Fechas.Add(new Fecha
+                {
+                    DateTime = fecha.DateTime,
                 });
             }
         }

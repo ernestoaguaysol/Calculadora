@@ -1,4 +1,7 @@
-﻿namespace Calculadora.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace Calculadora.Models
 {
     public class CalculadorPrestamo
     {
@@ -6,6 +9,7 @@
         private int monto;
         private int interes;
         private int cuotas;
+        private int dias;
         #endregion
 
         #region Constructor
@@ -18,6 +22,12 @@
         #endregion
 
         #region Properties
+        public int Dias
+        {
+            get { return dias; }
+            set { dias = value; }
+        }
+
         public int Monto
         {
             get { return monto; }
@@ -74,6 +84,21 @@
                 }
             }
         }
+
+        public List<Fecha> GetFechas()
+        {
+            var fechas = new List<Fecha>();
+            var fecha = DateTime.Now;
+            for (int i = 0; i < cuotas; i++)
+            {       
+                fecha = fecha.AddDays(dias);
+                fechas.Add(new Fecha
+                {
+                    DateTime = fecha
+                });
+            }
+            return fechas;
+        }
         #endregion
 
         #region Methods
@@ -87,7 +112,7 @@
             double montoTotal = MontoTotal;
             double cuotas = Cuotas;
             return montoTotal / cuotas;
-        } 
+        }
         #endregion
     }
 }
