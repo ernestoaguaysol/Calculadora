@@ -88,36 +88,33 @@
                         TextColor="{StaticResource FontColor}">
                     </Entry>
                 </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Text="Forma"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource FontColor}">
+                    </Label>
+                    <control:BindablePicker
+                        Grid.Column="1"
+                        Title="Seleccionar..."
+                        TextColor="{StaticResource FontColor}"
+                        DisplayMemberPath="Nombre"
+                        SelectedValuePath="FormaId"
+                        ItemsSource="{Binding Formas}"
+                        SelectedValue ="{Binding Path=FormaElegida, Mode=TwoWay}"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Center">
+                    </control:BindablePicker>
+                </Grid>
             </Grid>
-            <StackLayout
-                Padding="30,0,30,0"
-                Orientation="Horizontal">
-                <Switch
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    IsToggled="{Binding HabilitarControl}">
-                </Switch>
-                <Label
-                    Text="Generar Control"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    TextColor="{StaticResource AccentColor1}">
-                </Label>
-            </StackLayout>
-            <Label
-                Text="Forma de pago:">
-            </Label>
-            <control:BindablePicker
-                Title="Seleccionar forma de pago..."
-                TextColor="{StaticResource FontColor}"
-                DisplayMemberPath="Nombre"
-                SelectedValuePath="FormaId"
-                ItemsSource="{Binding Formas}"
-                SelectedValue ="{Binding Path=FormaElegida, Mode=TwoWay}"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="Center">
-            </control:BindablePicker>
             <Button
                 Command="{Binding CalcularResultadoCommand}"
                 BackgroundColor="{StaticResource MainColor}"
@@ -127,23 +124,30 @@
                 Text="Calcular">
             </Button>
             <Label
-                Text="{Binding PrimeraCuota}"
-                TextColor="{StaticResource FontColor}"
-                FontSize="Large"
-                HorizontalOptions="Center">
+                Text="{Binding MontoTotal}"
+                FontSize="Medium"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                TextColor="{StaticResource FontColor}">
             </Label>
             <Label
-                Text="{Binding RestoDeCuotas}"
-                TextColor="{StaticResource FontColor}"
-                FontSize="Large"
-                HorizontalOptions="Center">
+                Text="{Binding DescripcionCuotas}"
+                FontSize="Medium"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                TextColor="{StaticResource FontColor}">
             </Label>
             <Label
-                Text="{Binding Forma}"
-                FontSize="Large"
-                HorizontalOptions="Center">
+                Text="{Binding FechaFin}"
+                FontSize="Medium"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                TextColor="{StaticResource FontColor}">
             </Label>
-            <ListView
+            <!--<ListView
                 ItemsSource="{Binding Fechas}"
                 HasUnevenRows="True">
                 <ListView.ItemTemplate>
@@ -171,7 +175,7 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
+            </ListView>-->
         </StackLayout>
     </ScrollView>
 </ContentPage>

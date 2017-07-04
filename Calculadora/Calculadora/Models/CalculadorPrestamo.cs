@@ -5,46 +5,14 @@ namespace Calculadora.Models
 {
     public class CalculadorPrestamo
     {
-        #region Attributes
-        private int monto;
-        private int interes;
-        private int cuotas;
-        private int dias;
-        #endregion
-
-        #region Constructor
-        public CalculadorPrestamo(int monto, int interes, int cuotas)
-        {
-            this.monto = monto;
-            this.interes = interes;
-            this.cuotas = cuotas;
-        }
-        #endregion
-
         #region Properties
-        public int Dias
-        {
-            get { return dias; }
-            set { dias = value; }
-        }
+        public Forma Forma { get; set; }
 
-        public int Monto
-        {
-            get { return monto; }
-            set { monto = value; }
-        }
+        public int Monto { get; set; }
 
-        public int Interes
-        {
-            get { return interes; }
-            set { interes = value; }
-        }
+        public int Interes { get; set; }
 
-        public int Cuotas
-        {
-            get { return cuotas; }
-            set { cuotas = value; }
-        }
+        public int Cuotas { get; set; }
 
         public int MontoTotal
         {
@@ -89,9 +57,9 @@ namespace Calculadora.Models
         {
             var fechas = new List<Fecha>();
             var fecha = DateTime.Now;
-            for (int i = 0; i < cuotas; i++)
+            for (int i = 0; i < Cuotas; i++)
             {       
-                fecha = fecha.AddDays(dias);
+                fecha = fecha.AddDays(Forma.Dias);
                 fechas.Add(new Fecha
                 {
                     DateTime = fecha
