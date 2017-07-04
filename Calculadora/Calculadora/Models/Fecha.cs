@@ -33,7 +33,7 @@ namespace Calculadora.Models
                     dia = "Martes";
                     break;
                 case "Wednesday":
-                    dia = "Miersoles";
+                    dia = "Miércoles";
                     break;
                 case "Thursday":
                     dia = "Jueves";
@@ -42,7 +42,7 @@ namespace Calculadora.Models
                     dia = "Viernes";
                     break;
                 case "Saturday":
-                    dia = "Sabado";
+                    dia = "Sábado";
                     break;
                 default:
                     break;

@@ -21,49 +21,20 @@ namespace Calculadora.ViewModels
         private string monto;
         private string interes;
         private string cuotas;
-        private string primeraCuota;
-        private string restoDeCuotas;
         private int formaElegida;
-        private string forma;
-        private bool habilitarControl;
+        private string montoTotal;
+        private string descripcionCuotas;
+        private string fechaFin;
+        private bool isVisible;
+        private CalculadorPrestamo calculadora;
         #endregion
 
         #region Properties
+        public ResultadoViewModel Resultado { get; set; }
+
         public ObservableCollection<Forma> Formas { get; set; }
 
         public ObservableCollection<Fecha> Fechas { get; set; }
-
-        public string Forma
-        {
-            set
-            {
-                if (forma != value)
-                {
-                    forma = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Forma"));
-                }
-            }
-            get
-            {
-                return forma;
-            }
-        }
-
-        public bool HabilitarControl
-        {
-            set
-            {
-                if (habilitarControl != value)
-                {
-                    habilitarControl = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HabilitarControl"));
-                }
-            }
-            get
-            {
-                return habilitarControl;
-            }
-        }
 
         public int FormaElegida
         {
@@ -129,52 +100,106 @@ namespace Calculadora.ViewModels
             }
         }
 
-        public string PrimeraCuota
+        public string MontoTotal
         {
             set
             {
-                if (primeraCuota != value)
+                if (montoTotal != value)
                 {
-                    primeraCuota = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PrimeraCuota"));
+                    montoTotal = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MontoTotal"));
                 }
             }
             get
             {
-                return primeraCuota;
+                return montoTotal;
             }
         }
 
-        public string RestoDeCuotas
+        public string DescripcionCuotas
         {
             set
             {
-                if (restoDeCuotas != value)
+                if (descripcionCuotas != value)
                 {
-                    restoDeCuotas = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RestoDeCuotas"));
+                    descripcionCuotas = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DescripcionCuotas"));
                 }
             }
             get
             {
-                return restoDeCuotas;
+                return descripcionCuotas;
             }
         }
+
+        public string FechaFin
+        {
+            set
+            {
+                if (fechaFin != value)
+                {
+                    fechaFin = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FechaFin"));
+                }
+            }
+            get
+            {
+                return fechaFin;
+            }
+        }
+
+        public bool IsVisible
+        {
+            set
+            {
+                if (isVisible != value)
+                {
+                    isVisible = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsVisible"));
+                }
+            }
+            get
+            {
+                return isVisible;
+            }
+        }
+
+        public bool IsEnable { get; set; }
         #endregion
 
         #region Constructor
         public MainViewModel()
         {
+            instance = this;
             dialogService = new DialogService();
 
             Formas = new ObservableCollection<Forma>();
             Fechas = new ObservableCollection<Fecha>();
 
             LoadFormas();
+            IsVisible = false;
+            IsEnable = false;
         }
         #endregion
 
         #region Commands
+        public ICommand BorrarCommand { get { return new RelayCommand(Borrar); } }
+
+        private void Borrar()
+        {
+            Monto = null;
+            Interes = null;
+            Cuotas = null;
+            MontoTotal = null;
+            DescripcionCuotas = null;
+            FechaFin = null;
+            Formas.Clear();
+            LoadFormas();
+
+            IsVisible = false;
+            IsEnable = false;
+        }
+
         public ICommand CalcularResultadoCommand { get {return new RelayCommand(CalcularResultado); }  }
 
         private async void CalcularResultado()
@@ -185,6 +210,7 @@ namespace Calculadora.ViewModels
                     string.IsNullOrEmpty(this.interes) ||
                     string.IsNullOrEmpty(this.cuotas))
                 {
+                    IsEnable = false;
                     await dialogService.ShowMessage("Error", "No puede haber campos vacios");
                     return;
                 }
@@ -195,43 +221,53 @@ namespace Calculadora.ViewModels
 
                 if (monto <= 0)
                 {
+                    IsEnable = false;
                     await dialogService.ShowMessage("Error", "El valor del monto debe ser mayor a cero");
                     return;
                 }
                 if (interes < 0)
                 {
+                    IsEnable = false;
                     await dialogService.ShowMessage("Error", "El valor del interés no puede ser negativo");
                     return;
                 }
                 if (cuotas <= 0)
                 {
+                    IsEnable = false;
                     await dialogService.ShowMessage("Error", "El valor de cuotas debe ser mayor a cero");
                     return;
                 }
 
+                // BindablePicker
                 var forma = Formas.ToList().Where(f => f.FormaId == formaElegida).FirstOrDefault();
-                var calculadora = new CalculadorPrestamo(monto, interes, cuotas)
+
+                calculadora = new CalculadorPrestamo
                 {
-                    Dias = forma.Dias
+                    Cuotas = cuotas,
+                    Forma = forma,
+                    Interes = interes,
+                    Monto = monto,
                 };
-
-                PrimeraCuota = string.Format("Primera Cuota $ {0}", calculadora.CuotaPrimera.ToString());
-                RestoDeCuotas = string.Format("Resto de Cuotas $ {0}", calculadora.CuotaRestante.ToString());
-                Forma = forma.Nombre;
-
                 LoadFechas(calculadora.GetFechas());
 
-                Monto = null;
-                Interes = null;
-                Cuotas = null;
+                MontoTotal = string.Format("Total $ {0}", calculadora.MontoTotal.ToString());
+                DescripcionCuotas = string.Format("Cuotas {0}", LoadDescripcionCuotas());
+                FechaFin = string.Format("Termina el {0:dd/MM/yyyy}", Fechas.LastOrDefault().DateTime);
+
+                Resultado = new ResultadoViewModel(calculadora);
+
+                IsVisible = true;
+                IsEnable = true;
             }
             catch (FormatException)
             {
+                IsEnable = false;
                 await dialogService.ShowMessage("Error", "Tipo de formato no válido");
                 return;
             }
             catch (Exception ex)
             {
+                IsEnable = false;
                 await dialogService.ShowMessage("Error", ex.Message);
                 return;
             }
@@ -239,6 +275,18 @@ namespace Calculadora.ViewModels
         #endregion
 
         #region Methods
+        private string LoadDescripcionCuotas()
+        {
+            if (calculadora.CuotaPrimera == calculadora.CuotaRestante)
+            {
+                return string.Format("$ {0}", calculadora.CuotaPrimera);
+            }
+            else
+            {
+                return string.Format("$ {0} / $ {1}", calculadora.CuotaPrimera, calculadora.CuotaRestante);
+            }
+        }
+
         private void LoadFormas()
         {
             var formas = new FormaDePagoViewModel();
@@ -265,6 +313,19 @@ namespace Calculadora.ViewModels
                     DateTime = fecha.DateTime,
                 });
             }
+        }
+        #endregion
+
+        #region Singleton
+        private static MainViewModel instance;
+
+        public static MainViewModel GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new MainViewModel();
+            }
+            return instance;
         }
         #endregion
     }
