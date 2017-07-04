@@ -25,6 +25,7 @@ namespace Calculadora.ViewModels
         private string montoTotal;
         private string descripcionCuotas;
         private string fechaFin;
+        private bool isVisible;
         private CalculadorPrestamo calculadora;
         #endregion
 
@@ -147,6 +148,22 @@ namespace Calculadora.ViewModels
             }
         }
 
+        public bool IsVisible
+        {
+            set
+            {
+                if (isVisible != value)
+                {
+                    isVisible = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsVisible"));
+                }
+            }
+            get
+            {
+                return isVisible;
+            }
+        }
+
         public bool IsEnable { get; set; }
         #endregion
 
@@ -160,11 +177,29 @@ namespace Calculadora.ViewModels
             Fechas = new ObservableCollection<Fecha>();
 
             LoadFormas();
+            IsVisible = false;
             IsEnable = false;
         }
         #endregion
 
         #region Commands
+        public ICommand BorrarCommand { get { return new RelayCommand(Borrar); } }
+
+        private void Borrar()
+        {
+            Monto = null;
+            Interes = null;
+            Cuotas = null;
+            MontoTotal = null;
+            DescripcionCuotas = null;
+            FechaFin = null;
+            Formas.Clear();
+            LoadFormas();
+
+            IsVisible = false;
+            IsEnable = false;
+        }
+
         public ICommand CalcularResultadoCommand { get {return new RelayCommand(CalcularResultado); }  }
 
         private async void CalcularResultado()
@@ -221,6 +256,7 @@ namespace Calculadora.ViewModels
 
                 Resultado = new ResultadoViewModel(calculadora);
 
+                IsVisible = true;
                 IsEnable = true;
             }
             catch (FormatException)

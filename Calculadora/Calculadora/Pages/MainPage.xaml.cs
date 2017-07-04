@@ -16,12 +16,12 @@ namespace Calculadora.Pages
             _mainViewModel = MainViewModel.GetInstance();
         }
 
-        //private async void NavigationButton_Clicked(object sender, System.EventArgs e)
-        //{
-        //    if (_mainViewModel.IsEnable)
-        //    {
-        //        await Navigation.PushAsync(new ResultadoPage());
-        //    }
-        //}
+        private async void NavigationButton_Clicked(object sender, System.EventArgs e)
+        {
+            if (_mainViewModel.IsEnable)
+            {
+                await Navigation.PushAsync(new ResultadoPage());
+            }
+        }
     }
 }

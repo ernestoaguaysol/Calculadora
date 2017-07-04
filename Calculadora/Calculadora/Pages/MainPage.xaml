@@ -123,6 +123,15 @@
                 BorderRadius="20"
                 Text="Calcular">
             </Button>
+            <Button
+                BackgroundColor="{StaticResource MainColor}"
+                TextColor="White"
+                HeightRequest="40"
+                BorderRadius="20"
+                Text="Ver Fechas"
+                IsVisible="{Binding IsVisible}"
+                Clicked="NavigationButton_Clicked">
+            </Button>
             <Label
                 Text="{Binding MontoTotal}"
                 FontSize="Medium"
@@ -147,35 +156,15 @@
                 VerticalOptions="Center"
                 TextColor="{StaticResource FontColor}">
             </Label>
-            <!--<ListView
-                ItemsSource="{Binding Fechas}"
-                HasUnevenRows="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid
-                                Padding="8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Label 
-                                    Grid.Column="0"
-                                    Text="{Binding Dia}"
-                                    FontSize="Medium"
-                                    HorizontalOptions="Center"
-                                    TextColor="{StaticResource FontColor}" />
-                                <Label
-                                    Grid.Column="1"
-                                    Text="{Binding DateTime, StringFormat='{0:dd/MM/yyyy}'}}"
-                                    FontSize="Medium"
-                                    HorizontalOptions="EndAndExpand"
-                                    TextColor="{StaticResource FontColor}" />
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
+            <Button
+                Command="{Binding BorrarCommand}"
+                BackgroundColor="{StaticResource MainColor}"
+                TextColor="White"
+                HeightRequest="40"
+                BorderRadius="20"
+                Text="Borrar"
+                IsVisible="{Binding IsVisible}">
+            </Button>
         </StackLayout>
     </ScrollView>
 </ContentPage>

@@ -10,10 +10,35 @@
         <StackLayout
             BindingContext="{Binding Resultado}"
             Padding="8">
-            <Label
-                Text="{Binding DescripcionCuotas}"
-                FontSize="Large">
-            </Label>
+            <ListView
+                ItemsSource="{Binding Fechas}"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid
+                                Padding="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label 
+                                    Grid.Column="0"
+                                    Text="{Binding Dia}"
+                                    FontSize="Medium"
+                                    HorizontalOptions="Center"
+                                    TextColor="{StaticResource FontColor}" />
+                                <Label
+                                    Grid.Column="1"
+                                    Text="{Binding DateTime, StringFormat='{0:dd/MM/yyyy}'}"
+                                    FontSize="Medium"
+                                    HorizontalOptions="FillAndExpand"
+                                    TextColor="{StaticResource FontColor}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
