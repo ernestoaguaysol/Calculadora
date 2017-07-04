@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Calculadora.Models;
 using System.Collections.ObjectModel;
 
@@ -10,10 +6,15 @@ namespace Calculadora.ViewModels
 {
     public class ResultadoViewModel
     {
+        #region Attributes
         private CalculadorPrestamo calculadora;
+        #endregion
 
+        #region Properties
         public ObservableCollection<Fecha> Fechas { get; set; }
+        #endregion
 
+        #region Constructor
         public ResultadoViewModel(CalculadorPrestamo calculadora)
         {
             this.calculadora = calculadora;
@@ -21,7 +22,9 @@ namespace Calculadora.ViewModels
             Fechas = new ObservableCollection<Fecha>();
             LoadFechas(calculadora.GetFechas());
         }
+        #endregion
 
+        #region Methods
         private void LoadFechas(List<Fecha> fechas)
         {
             Fechas.Clear();
@@ -32,7 +35,8 @@ namespace Calculadora.ViewModels
                     DateTime = fecha.DateTime,
                 });
             }
-        }
+        } 
+        #endregion
 
     }
 }
