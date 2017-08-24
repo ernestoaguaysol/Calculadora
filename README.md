@@ -2,3 +2,5 @@
 
 ## Calculadora de prestamos
 
+[![Join the chat at https://gitter.im/Calculadoraprestamo/Lobby](https://badges.gitter.im/Calculadoraprestamo/Lobby.svg)](https://gitter.im/Calculadoraprestamo/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
